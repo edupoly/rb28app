@@ -1,26 +1,42 @@
 import React from 'react'
 import Todo from './Todo'
 function Todolist() {
-    var [todos,setTodos]= React.useState(['get bmw','get villa','books tickets']);
-    function addTodo(){
-        var ntd = document.getElementById("d1").value;
-        setTodos([...todos,ntd])
-    }
-    var deleteTodo = React.useCallback(function(ind){
-        alert(ind)
-        alert(JSON.stringify([...todos]))
+    var [todos,setTodos]= React.useState([
+        {
+            title:'get bmw',
+            status:false
+        },
+        {
+            title:'goto gym',
+            status:false
+        },
+        {
+            title:'purchase monitor',
+            status:true
+        },
+        {
+            title:'goto bp check',
+            status:false
+        },
+    ]);
+    function doneTodo(ind){
         var temp = [...todos];
-        temp.splice(ind,1);
+        temp[ind].status=true;
         setTodos([...temp])
-    },[todos])
+    }
+    function undoTodo(ind){
+        var temp = [...todos];
+        temp[ind].status=false;
+        setTodos([...temp])
+    }
     return (
         <div className='mybox'>
-            <h3>Todolist</h3>
-            <input type="text" id="d1"/>
-            <button onClick={()=>{addTodo()}}>Add Todo</button>
+            <input type="radio" />:ALL &nbsp;&nbsp;&nbsp;
+            <input type="radio" />:Completed &nbsp;&nbsp;&nbsp;
+            <input type="radio" />:Not Completed &nbsp;&nbsp;&nbsp;
             {
-                todos.map((todo,i)=>{
-                    return (<Todo t={todo} idx={i} delTodo={deleteTodo} key={i}></Todo>)
+                todos.map((t,i)=>{
+                    return <Todo task={t} key={i} idx={i} doneTodo={doneTodo} undoTodo={undoTodo}></Todo>
                 })
             }
         </div>
