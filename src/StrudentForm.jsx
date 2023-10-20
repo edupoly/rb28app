@@ -8,8 +8,9 @@ function StrudentForm() {
         gender:'',
         technologies:[]
     });
+    var [allStudents,setAllStudents] = React.useState([]);
     function addStu(){
-        alert(JSON.stringify(newStudent))
+        setAllStudents([...allStudents,{...newStudent}])
     }
     function handleFirstname(e){
         setNewStudent({...newStudent,firstname:e.target.value,})
@@ -24,7 +25,15 @@ function StrudentForm() {
         setNewStudent({...newStudent,gender:e.target.value})
     }
     function handleTechs(e){
-        setNewStudent({...newStudent,technologies:[...newStudent.technologies,e.target.value]})
+        if(e.target.checked===true){
+            setNewStudent({...newStudent,technologies:[...newStudent.technologies,e.target.value]})
+        }
+        else{
+            var temp = [...newStudent.technologies];
+            var ind = temp.indexOf(e.target.value);
+            temp.splice(ind,1);
+            setNewStudent({...newStudent,technologies:[...temp]})
+        }
     }
     return (
         <div className='mybox'>
@@ -46,9 +55,21 @@ function StrudentForm() {
             <br />
             <input type="checkbox" onChange={(e)=>{handleTechs(e)}}  value="ang"/>:Angular
             <br />
-            <input type="checkbox" value="expr" />:Express
+            <input type="checkbox" onChange={(e)=>{handleTechs(e)}} value="expr" />:Express
             <br />
             <button onClick={()=>{addStu()}}>Add Student</button>
+            <ul id="studentcards">
+                {
+                    allStudents.map((student)=>{
+                        return (
+                            <li>
+                                <h3>{student.firstname.toUpperCase()+" "+student.lastname}</h3>
+                                <h4>DoB:{student.dob}</h4>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </div>
     )
 }
