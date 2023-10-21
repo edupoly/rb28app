@@ -1,11 +1,16 @@
-
+import React from 'react'
 import './App.css';
-
+import First from './First';
+import { MyContext } from './Mycontext';
 function App() {
+  var [x,setX] = React.useState("Praveen")
   return (
-    <div className="mybox">
-      <h3>App Component</h3>
-    </div>
+    <MyContext.Provider value={x}>
+      <div className="mybox">
+        <h1>App Component:{x}</h1>
+        <First></First>
+      </div>
+    </MyContext.Provider>
   );
 }
 
