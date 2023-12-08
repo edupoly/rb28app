@@ -1,9 +1,11 @@
 import React from 'react'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom';
 import { useAddProductMutation, useLazyGetAllProductsQuery } from '../../services/products'
 function AddProduct() {
     var [addProdFn]=useAddProductMutation();
-    var [lazyGetAllProds] = useLazyGetAllProductsQuery()
+    var [lazyGetAllProds] = useLazyGetAllProductsQuery();
+    var navigate=useNavigate()
     var prodForm = useFormik({
         initialValues:{
             "title": "",
@@ -22,6 +24,7 @@ function AddProduct() {
                 console.log(res);
                 alert('Product added success')
                 lazyGetAllProds();
+                navigate("/products")
             })
             .catch((err)=>{
                 console.log("err",err)
